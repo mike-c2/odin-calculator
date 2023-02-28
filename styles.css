@@ -1,0 +1,27 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#calculator {
+  display: flex;
+  flex-direction: column;
+}
+
+#buttons-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 0.2em;
+  row-gap: 0.2em;
+}
+
+.number-btn,
+.operator-btn,
+.utility-btn {
+  box-sizing: border-box;
+  margin: 0;
+  height: 5rem;
+  width: 5rem;
+  font-size: 2rem;
+}
