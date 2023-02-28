@@ -14,6 +14,9 @@ body {
   grid-template-columns: repeat(4, 1fr);
   column-gap: 0.2em;
   row-gap: 0.2em;
+  padding: 1rem;
+  border-radius: 0.4rem;
+  background-color: navy;
 }
 
 .number-btn,
@@ -21,7 +24,28 @@ body {
 .utility-btn {
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
   height: 5rem;
   width: 5rem;
+  border-style: none;
+}
+
+.number-btn,
+.utility-btn {
   font-size: 2rem;
+}
+
+.operator-btn {
+  font-size: 3.5rem;
+  color: black;
+  background-color: lightgray;
+}
+
+.number-btn {
+  color: white;
+  background-color: black;
+}
+
+.utility-btn {
+  background-color: orange;
 }
