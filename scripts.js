@@ -81,6 +81,15 @@ function processKeydown(event) {
   if(!isNaN(event.key)) {
     addDigitToDisplay(event.key);
   }
+  
+  if(event.code === 'KeyA') {
+    resetGlobalVariables();
+    clearDisplay();
+  }
+
+  if(event.code === 'KeyC') {
+    clearDisplay();
+  }
 }
 
 function addEventListeners() {
@@ -103,8 +112,20 @@ function addEventListeners() {
     });
   }
   
+  const allClearBtn = document.getElementById('all-clear-btn');
+  allClearBtn.addEventListener('click', () => {
+    resetGlobalVariables();
+    clearDisplay();
+  });
+  
+  const clearBtn = document.getElementById('clear-btn');
+  clearBtn.addEventListener('click', () => {
+    clearDisplay();
+  });
+
   window.addEventListener('keydown', processKeydown);
 }
 
 resetGlobalVariables();
+clearDisplay();
 addEventListeners();
