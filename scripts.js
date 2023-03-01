@@ -77,6 +77,28 @@ function clearDisplay() {
   display.textContent = '0';
 }
 
+function flipSign() {
+  if(isDisplayError) {
+    return;
+  }
+  
+  const display = document.getElementById('result-value');
+  let displayValue = display.textContent;
+  
+  if(isNaN(displayValue) || Number(displayValue) === 0) {
+    return;
+  }
+  
+  if(displayValue[0] === '-') {
+    displayValue = displayValue.slice(1);
+
+  } else {
+    displayValue = '-' + displayValue;
+  }
+  
+  display.textContent = displayValue;
+}
+
 function processKeydown(event) {
   if(!isNaN(event.key)) {
     addDigitToDisplay(event.key);
@@ -89,6 +111,10 @@ function processKeydown(event) {
 
   if(event.code === 'KeyC') {
     clearDisplay();
+  }
+  
+  if(event.key === '!') {
+    flipSign();
   }
 }
 
@@ -119,9 +145,10 @@ function addEventListeners() {
   });
   
   const clearBtn = document.getElementById('clear-btn');
-  clearBtn.addEventListener('click', () => {
-    clearDisplay();
-  });
+  clearBtn.addEventListener('click', clearDisplay);
+  
+  const flipSignBtn = document.getElementById('flip-sign-btn');
+  flipSignBtn.addEventListener('click', flipSign);
 
   window.addEventListener('keydown', processKeydown);
 }
