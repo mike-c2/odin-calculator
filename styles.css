@@ -62,9 +62,32 @@ body {
 
 .utility-btn {
   color: black;
-  background-color: orange;
+  background-color: darkorange;
 }
 
 #backspace-btn {
   font-size: 3rem;
+}
+
+.number-btn:hover,
+.operator-btn:hover,
+.utility-btn:hover {
+  font-weight: 600;
+  transition: font-weight 0.15s;  
+  cursor: pointer;
+}
+
+.number-btn:hover {
+  background-color: rgb(26, 26, 26);
+  transition: background-color 0.15s;  
+}
+
+.operator-btn:hover {
+  background-color: rgb(235, 235, 235);
+  transition: background-color 0.15s;  
+}
+
+.utility-btn:hover {
+  background-color: orange;
+  transition: background-color 0.15s;  
 }
