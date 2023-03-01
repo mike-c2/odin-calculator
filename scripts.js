@@ -1,9 +1,20 @@
 const MAX_DIGITS = 10;
-let newNumberEntered = false;
-let isDisplayError = false;
-let operatorSelected = null;
-let displayValue = 0;
-let storedValue = 0;
+
+let newNumberEntered;
+let isDisplayError;
+let operatorSelected;
+let displayValue;
+let storedValue;
+
+resetGlobalVariables();
+
+function resetGlobalVariables() {
+  newNumberEntered = false;
+  isDisplayError = false;
+  operatorSelected = null;
+  displayValue = 0;
+  storedValue = 0;
+}
 
 function add(a, b) {
   return a + b;
