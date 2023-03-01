@@ -26,10 +26,6 @@ function divide(a, b) {
 }
 
 function getCountOfDisplayDigits() {
-  if(isDisplayError) {
-    return null;
-  }
-  
   const display = document.getElementById('result-value');
   const displayValue = display.textContent;
   
