@@ -72,6 +72,11 @@ function addDigitToDisplay(digit) {
   }
 }
 
+function clearDisplay() {
+  const display = document.getElementById('result-value');
+  display.textContent = '0';
+}
+
 function processKeydown(event) {
   if(!isNaN(event.key)) {
     addDigitToDisplay(event.key);
