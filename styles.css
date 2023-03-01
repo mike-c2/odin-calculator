@@ -21,7 +21,7 @@ body {
   text-align: end;
 }
 
-#result-display p {
+#result-value {
   margin: 0.2em 0;
   padding-right: 0.1em;
 }
