@@ -45,11 +45,43 @@ function addDigitToDisplay(digit) {
 
   const display = document.getElementById('result-value');
 
-  if(newNumberEntered && getCountOfDisplayDigits() < MAX_DIGITS) {
-    display.textContent += digit.toString();
+  if(newNumberEntered && getCountOfDisplayDigits() < MAX_DIGITS
+     && (digit !== 0 || display.textContent !== '0')) {
+    
+    // This prevents things like 000123 from
+    // entered into the calculator.
+    if(display.textContent === '0') {
+      display.textContent = digit.toString();
+      
+    } else {
+      display.textContent += digit.toString();
+    }
 
   } else if(!newNumberEntered) {
     display.textContent = digit.toString();
     newNumberEntered = true;
   }
 }
+
+function addEventListeners() {
+  const numbers = [];
+
+  numbers.push(document.getElementById('zero-btn'));
+  numbers.push(document.getElementById('one-btn'));
+  numbers.push(document.getElementById('two-btn'));
+  numbers.push(document.getElementById('three-btn'));
+  numbers.push(document.getElementById('four-btn'));
+  numbers.push(document.getElementById('five-btn'));
+  numbers.push(document.getElementById('six-btn'));
+  numbers.push(document.getElementById('seven-btn'));
+  numbers.push(document.getElementById('eight-btn'));
+  numbers.push(document.getElementById('nine-btn'));
+  
+  for(let i = 0; i < numbers.length; i++) {
+    numbers[i].addEventListener('click', () => {
+      addDigitToDisplay(numbers[i].textContent);
+    });
+  }
+}
+
+addEventListeners();
