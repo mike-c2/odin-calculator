@@ -7,6 +7,23 @@ body {
 #calculator {
   display: flex;
   flex-direction: column;
+  padding: 1rem;
+  border-radius: 0.4em;
+  background-color: rgb(10, 10, 145);
+}
+
+#result-display {
+  background-color: silver;
+  border-radius: 0.2em;
+  margin-top: 0.2em;
+  margin-bottom: 0.5em;
+  font-size: 3.6rem;
+  text-align: end;
+}
+
+#result-display p {
+  margin: 0.2em 0;
+  padding-right: 0.1em;
 }
 
 #buttons-container {
@@ -14,9 +31,6 @@ body {
   grid-template-columns: repeat(4, 1fr);
   column-gap: 0.2em;
   row-gap: 0.2em;
-  padding: 1rem;
-  border-radius: 0.4rem;
-  background-color: navy;
 }
 
 .number-btn,
