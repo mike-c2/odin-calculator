@@ -24,3 +24,14 @@ function divide(a, b) {
   
   return a / b;
 }
+
+function getCountOfDisplayDigits() {
+  if(isDisplayError) {
+    return null;
+  }
+  
+  const display = document.getElementById('result-value');
+  const displayValue = display.textContent;
+  
+  return displayValue.replace(/[^0-9]/g, '').length;
+}
