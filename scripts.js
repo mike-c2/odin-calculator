@@ -6,8 +6,6 @@ let operatorSelected;
 let displayValue;
 let storedValue;
 
-resetGlobalVariables();
-
 function resetGlobalVariables() {
   newNumberEntered = false;
   isDisplayError = false;
@@ -95,4 +93,5 @@ function addEventListeners() {
   }
 }
 
+resetGlobalVariables();
 addEventListeners();
