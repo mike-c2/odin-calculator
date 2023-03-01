@@ -72,6 +72,12 @@ function addDigitToDisplay(digit) {
   }
 }
 
+function processKeydown(event) {
+  if(!isNaN(event.key)) {
+    addDigitToDisplay(event.key);
+  }
+}
+
 function addEventListeners() {
   const numbers = [];
 
@@ -91,6 +97,8 @@ function addEventListeners() {
       addDigitToDisplay(numbers[i].textContent);
     });
   }
+  
+  window.addEventListener('keydown', processKeydown);
 }
 
 resetGlobalVariables();
