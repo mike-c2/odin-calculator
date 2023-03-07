@@ -2,13 +2,12 @@ const MAX_DIGITS = 10;
 
 let newNumberEntered;
 let operatorSelected;
-let displayValue;
 let storedValue;
 
 function resetGlobalVariables() {
   newNumberEntered = false;
   operatorSelected = add;
-  displayValue = 0;
+  document.getElementById('result-value').textContent = '0';
   storedValue = 0;
 }
 
@@ -65,8 +64,9 @@ function addDigitToDisplay(digit) {
     }
 
   } else if(!newNumberEntered) {
-    display.textContent = digit.toString();
+    storedValue = Number(display.textContent);
     newNumberEntered = true;
+    display.textContent = digit.toString();
   }
 }
 
