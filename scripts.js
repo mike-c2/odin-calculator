@@ -75,6 +75,24 @@ function clearDisplay() {
   display.textContent = '0';
 }
 
+function deleteSingleDigit() {
+  const display = document.getElementById('result-value');
+  const displayValue = display.textContent;
+  
+  if(isNaN(displayValue) || Number(displayValue) === 0) {
+    return;
+  }
+
+  const displayNumber = Number(displayValue);
+  
+  if(newNumberEntered && displayNumber > -10 && displayNumber < 10) {
+    clearDisplay();
+
+  } else if(newNumberEntered) {
+    display.textContent = displayValue.slice(0, -1);
+  }
+}
+
 function flipSign() {
   const display = document.getElementById('result-value');
   let displayValue = display.textContent;
@@ -105,6 +123,10 @@ function processKeydown(event) {
 
   if(event.code === 'KeyC') {
     clearDisplay();
+  }
+  
+  if(event.code === 'Backspace') {
+    deleteSingleDigit();
   }
   
   if(event.key === '!') {
@@ -140,6 +162,9 @@ function addEventListeners() {
   
   const clearBtn = document.getElementById('clear-btn');
   clearBtn.addEventListener('click', clearDisplay);
+  
+  const backspaceBtn = document.getElementById('backspace-btn');
+  backspaceBtn.addEventListener('click', deleteSingleDigit);
   
   const flipSignBtn = document.getElementById('flip-sign-btn');
   flipSignBtn.addEventListener('click', flipSign);
