@@ -7,7 +7,7 @@ let storedValue;
 
 function resetGlobalVariables() {
   newNumberEntered = false;
-  operatorSelected = null;
+  operatorSelected = add;
   displayValue = 0;
   storedValue = 0;
 }
