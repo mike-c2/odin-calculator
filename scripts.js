@@ -79,13 +79,15 @@ function deleteSingleDigit() {
   const display = document.getElementById('result-value');
   const displayValue = display.textContent;
   
-  if(isNaN(displayValue) || Number(displayValue) === 0) {
+  if(isNaN(displayValue) || displayValue === '0') {
     return;
   }
 
   const displayNumber = Number(displayValue);
   
-  if(newNumberEntered && displayNumber > -10 && displayNumber < 10) {
+  if(newNumberEntered && displayNumber > -10 && displayNumber < 10
+    && displayValue.search(/\./) < 0) {
+
     clearDisplay();
 
   } else if(newNumberEntered) {
@@ -111,6 +113,25 @@ function flipSign() {
   display.textContent = displayValue;
 }
 
+function enterDecimal() {
+  const display = document.getElementById('result-value');
+  let displayValue = display.textContent;
+  
+  if(isNaN(displayValue) || displayValue.search(/\./) >= 0
+    || getCountOfDisplayDigits() >= MAX_DIGITS) {
+
+    return
+  }
+  
+  if(newNumberEntered) {
+    display.textContent += '.';
+
+  } else {
+    newNumberEntered = true;
+    display.textContent = '0.';
+  }
+}
+
 function processKeydown(event) {
   if(!isNaN(event.key)) {
     addDigitToDisplay(event.key);
@@ -131,6 +152,10 @@ function processKeydown(event) {
   
   if(event.key === '!') {
     flipSign();
+  }
+  
+  if(event.key === '.') {
+    enterDecimal();
   }
 }
 
@@ -168,6 +193,9 @@ function addEventListeners() {
   
   const flipSignBtn = document.getElementById('flip-sign-btn');
   flipSignBtn.addEventListener('click', flipSign);
+  
+  const decimalBtn = document.getElementById('decimal-btn');
+  decimalBtn.addEventListener('click', enterDecimal);
 
   window.addEventListener('keydown', processKeydown);
 }
