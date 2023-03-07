@@ -1,14 +1,12 @@
 const MAX_DIGITS = 10;
 
 let newNumberEntered;
-let isDisplayError;
 let operatorSelected;
 let displayValue;
 let storedValue;
 
 function resetGlobalVariables() {
   newNumberEntered = false;
-  isDisplayError = false;
   operatorSelected = null;
   displayValue = 0;
   storedValue = 0;
@@ -78,10 +76,6 @@ function clearDisplay() {
 }
 
 function flipSign() {
-  if(isDisplayError) {
-    return;
-  }
-  
   const display = document.getElementById('result-value');
   let displayValue = display.textContent;
   
