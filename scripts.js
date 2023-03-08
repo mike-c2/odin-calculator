@@ -1,5 +1,8 @@
 const MAX_DIGITS = 10;
 
+const MAX_VALUE = Math.pow(10, MAX_DIGITS + 1) - 1;
+const MIN_VALUE = MAX_VALUE * -1;
+
 let newNumberEntered;
 let operatorSelected;
 let storedValue;
@@ -29,6 +32,55 @@ function divide(a, b) {
   }
 
   return a / b;
+}
+
+function enterEquals() {
+  const display = document.getElementById('result-value');
+  const displayValue = display.textContent;
+  
+  if(isNaN(displayValue)) {
+    return;
+  }
+  
+  const newOperand = Number(displayValue);
+  const result = operatorSelected(storedValue, newOperand);
+
+  if(result === null) {
+    display.textContent = 'div by 0!';
+    return;
+  }
+  
+  if(result < MIN_VALUE || result > MAX_VALUE) {
+    display.textContent = 'overflow';
+    return;
+  }
+  
+  if(newNumberEntered) {
+    storedValue = newOperand;
+    newNumberEntered = false;
+  }
+  
+  let resultString = result.toString();
+  let maxLength = MAX_DIGITS;
+  const decimalIndex = resultString.search(/\./);
+  
+  if(decimalIndex >= 0) {
+    maxLength++;
+  }
+  
+  if(resultString[0] === '-') {
+    maxLength++;
+  }
+  
+  if(resultString.length > maxLength) {
+    const integerString = resultString.replace(/\..*$/, '').replace(/-/, '');
+    const allowedDecimals = MAX_DIGITS - integerString;
+
+    display.textContent = result.toFixed(allowedDecimals);
+
+  } else {
+    display.textContent = resultString;
+  }
 }
 
 function getCountOfDisplayDigits() {
