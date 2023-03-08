@@ -1,6 +1,6 @@
 const MAX_DIGITS = 10;
 
-const MAX_VALUE = Math.pow(10, MAX_DIGITS + 1) - 1;
+const MAX_VALUE = Math.pow(10, MAX_DIGITS) - 1;
 const MIN_VALUE = MAX_VALUE * -1;
 
 let newNumberEntered;
@@ -74,7 +74,7 @@ function enterEquals() {
   
   if(resultString.length > maxLength) {
     const integerString = resultString.replace(/\..*$/, '').replace(/-/, '');
-    const allowedDecimals = MAX_DIGITS - integerString;
+    const allowedDecimals = MAX_DIGITS - integerString.length;
 
     display.textContent = result.toFixed(allowedDecimals);
 
