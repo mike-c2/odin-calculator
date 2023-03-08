@@ -34,6 +34,37 @@ function divide(a, b) {
   return a / b;
 }
 
+function enterAdd() {
+  if(newNumberEntered) {
+    enterEquals();
+  }
+  
+  operatorSelected = add;
+}
+
+function enterSubtract() {
+  if(newNumberEntered) {
+    enterEquals();
+  }
+  
+  operatorSelected = subtract;
+}
+
+function enterMultiply() {
+  if(newNumberEntered) {
+    enterEquals();
+  }
+  
+  operatorSelected = multiply;
+}
+
+function enterDivide() {
+  if(newNumberEntered) {
+    enterEquals();
+  }
+  operatorSelected = divide;
+}
+
 function enterEquals() {
   const display = document.getElementById('result-value');
   const displayValue = display.textContent;
@@ -213,6 +244,22 @@ function processKeydown(event) {
   if(event.key === '=') {
     enterEquals();
   }
+  
+  if(event.key === '+') {
+    enterAdd();
+  }
+
+  if(event.key === '-') {
+    enterSubtract();
+  }
+
+  if(event.key === '*') {
+    enterMultiply();
+  }
+
+  if(event.key === '/') {
+    enterDivide();
+  }
 }
 
 function addEventListeners() {
@@ -255,6 +302,18 @@ function addEventListeners() {
   
   const equalsBtn = document.getElementById('equals-btn');
   equalsBtn.addEventListener('click', enterEquals);
+  
+  const addBtn = document.getElementById('add-btn');
+  addBtn.addEventListener('click', enterAdd);
+
+  const subtractBtn = document.getElementById('subtract-btn');
+  subtractBtn.addEventListener('click', enterSubtract);
+
+  const multiplyBtn = document.getElementById('multiply-btn');
+  multiplyBtn.addEventListener('click', enterMultiply);
+
+  const divideBtn = document.getElementById('divide-btn');
+  divideBtn.addEventListener('click', enterDivide);
 
   window.addEventListener('keydown', processKeydown);
 }
