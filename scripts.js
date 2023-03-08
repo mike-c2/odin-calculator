@@ -209,6 +209,10 @@ function processKeydown(event) {
   if(event.key === '.') {
     enterDecimal();
   }
+  
+  if(event.key === '=') {
+    enterEquals();
+  }
 }
 
 function addEventListeners() {
@@ -248,6 +252,9 @@ function addEventListeners() {
   
   const decimalBtn = document.getElementById('decimal-btn');
   decimalBtn.addEventListener('click', enterDecimal);
+  
+  const equalsBtn = document.getElementById('equals-btn');
+  equalsBtn.addEventListener('click', enterEquals);
 
   window.addEventListener('keydown', processKeydown);
 }
