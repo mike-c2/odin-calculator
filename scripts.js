@@ -155,7 +155,9 @@ function addDigitToDisplay(digit) {
 
 function clearDisplay() {
   const display = document.getElementById('result-value');
-  display.textContent = '0';
+  if(!isNaN(display.textContent)) {
+    display.textContent = '0';
+  }
 }
 
 function deleteSingleDigit() {
