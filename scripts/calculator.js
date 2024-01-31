@@ -5,11 +5,12 @@ class Calculator {
   }
 
   static MAX_DIGITS = 10;
-  static MAX_VALUE = Math.pow(10, MAX_DIGITS) - 1;
-  static MIN_VALUE = MAX_VALUE * -1;
+  static MAX_VALUE = Math.pow(10, this.MAX_DIGITS) - 1;
+  static MIN_VALUE = this.MAX_VALUE * -1;
 
+  // This does not include the decimal point and negative sign
   static getCountOfNumericalDigits(numberString) {
-
+    return numberString.split('').filter(digit => /^[0-9]$/.test(digit)).length;
   }
 
   static isStringANumber(numberString) {
@@ -57,4 +58,4 @@ class Calculator {
   }
 }
 
-export { Calculator as default};
+module.exports = Calculator;
