@@ -10,7 +10,23 @@ class Calculator {
 
   // This does not include the decimal point and negative sign
   static getCountOfNumericalDigits(numberString) {
-    return numberString.split('').filter(digit => /^[0-9]$/.test(digit)).length;
+    if(numberString === Infinity || numberString === -Infinity) {
+      return Infinity;
+    }
+
+    let numString;
+
+    if(typeof numberString === 'number' && !isNaN(numberString)) {
+      numString = numberString.toString();
+    } else {
+      numString = numberString;
+    }
+
+    if(!numString) {
+      return 0;
+    }
+
+    return numString.split('').filter(digit => /^[0-9]$/.test(digit)).length;
   }
 
   static isStringANumber(numberString) {
