@@ -56,3 +56,5 @@ class Calculator {
 
   }
 }
+
+export { Calculator as default};
