@@ -30,7 +30,13 @@ class Calculator {
   }
 
   static isStringANumber(numberString) {
+    const numString = numberString + '';
 
+    if(!numString) {
+      return false;
+    }
+
+    return /^-?[0-9]+(\.[0-9]+)?$/.test(numString) || /^-?\.[0-9]+$/.test(numString);
   }
 
   resetCalculator() {

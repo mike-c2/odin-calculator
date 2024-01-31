@@ -65,3 +65,69 @@ describe('Tests getCountOfNumericalDigits(numberString)', () => {
     expect(Calculator.getCountOfNumericalDigits(undefined)).toBe(0);
   });
 });
+
+describe('Tests isStringANumber(numberString)', () => {
+  test("'0' is true", () => {
+    expect(Calculator.isStringANumber('0')).toBe(true);
+  });
+
+    test("'8' is true", () => {
+      expect(Calculator.isStringANumber('8')).toBe(true);
+    });
+
+    test("'99999999999999' is true", () => {
+      expect(Calculator.isStringANumber('99999999999999')).toBe(true);
+    });
+
+    test("'-45.77' is true", () => {
+      expect(Calculator.isStringANumber('-45.77')).toBe(true);
+    });
+
+    test("'.5' is true", () => {
+      expect(Calculator.isStringANumber('.5')).toBe(true);
+    });
+
+    test("'-.01' is true", () => {
+      expect(Calculator.isStringANumber('-.01')).toBe(true);
+    });
+
+    test("'-45.x77' is false", () => {
+      expect(Calculator.isStringANumber('-45.x77')).toBe(false);
+    });
+
+    test("'a777' is false", () => {
+      expect(Calculator.isStringANumber('a777')).toBe(false);
+    });
+
+    test('Empty string is false', () => {
+      expect(Calculator.isStringANumber('')).toBe(false);
+    });
+
+    test("'cat' is false", () => {
+      expect(Calculator.isStringANumber('cat')).toBe(false);
+    });
+
+    test('0 is true', () => {
+      expect(Calculator.isStringANumber(0)).toBe(true);
+    });
+
+    test('7.777 is true', () => {
+      expect(Calculator.isStringANumber(7.777)).toBe(true);
+    });
+
+    test('-9.0 is true', () => {
+      expect(Calculator.isStringANumber(-9.0)).toBe(true);
+    });
+
+    test('null is false', () => {
+      expect(Calculator.isStringANumber(null)).toBe(false);
+    });
+
+    test('NaN is false', () => {
+      expect(Calculator.isStringANumber(NaN)).toBe(false);
+    });
+
+    test('undefined is false', () => {
+      expect(Calculator.isStringANumber(undefined)).toBe(false);
+    });
+});
