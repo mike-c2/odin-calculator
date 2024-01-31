@@ -40,7 +40,11 @@ class Calculator {
   }
 
   resetCalculator() {
-
+    this.leftOperand = 0;
+    this.rightOperand = 0;
+    this.operator = '+';
+    this.displayValue = "0";
+    this.resetDisplayValue = true;
   }
 
   massInput(inputSequenceString) {

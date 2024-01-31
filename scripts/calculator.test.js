@@ -131,3 +131,21 @@ describe('Tests isStringANumber(numberString)', () => {
       expect(Calculator.isStringANumber(undefined)).toBe(false);
     });
 });
+
+describe('Tests resetCalculator', () => {
+  test('Reset the calculator properties', () => {
+    const calc = new Calculator();
+    calc.leftOperand = 5;
+    calc.rightOperand = 6;
+    calc.operator = '-';
+    calc.displayValue = '123';
+    calc.resetDisplayValue = false;
+    calc.resetCalculator();
+
+    expect(calc.leftOperand).toBe(0);
+    expect(calc.rightOperand).toBe(0);
+    expect(calc.operator).toBe('+');
+    expect(calc.displayValue).toBe('0');
+    expect(calc.resetDisplayValue).toBe(true);
+  });
+});
