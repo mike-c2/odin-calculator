@@ -36,7 +36,7 @@ class Calculator {
       return false;
     }
 
-    return /^-?[0-9]+(\.[0-9]+)?$/.test(numString) || /^-?\.[0-9]+$/.test(numString);
+    return /^-?[0-9]+\.?[0-9]*$/.test(numString) || /^-?\.[0-9]+$/.test(numString);
   }
 
   resetCalculator() {
@@ -109,8 +109,7 @@ class Calculator {
   }
 
   deleteLastDigit() {
-    if(!this.displayValue) {
-      this.displayValue = '0';
+    if(!Calculator.isStringANumber(this.displayValue)) {
       return;
     }
 

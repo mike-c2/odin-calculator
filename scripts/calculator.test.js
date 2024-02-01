@@ -91,6 +91,10 @@ describe('Tests isStringANumber(numberString)', () => {
     expect(Calculator.isStringANumber('-.01')).toBe(true);
   });
 
+  test("'12.' is true", () => {
+    expect(Calculator.isStringANumber('12.')).toBe(true);
+  });
+
   test("'-45.x77' is false", () => {
     expect(Calculator.isStringANumber('-45.x77')).toBe(false);
   });
@@ -368,36 +372,44 @@ describe('Tests inputNegativeSign', () => {
 });
 
 describe('Testing deleteLastDigit()', () => {
-  test("Null becomes '0'", () => {
+  test("Null is ignored", () => {
     const calc = new Calculator();
     calc.displayValue = null;
     calc.deleteLastDigit();
 
-    expect(calc.displayValue).toBe('0');
+    expect(calc.displayValue).toBeNull();
   });
 
-  test("NaN becomes '0'", () => {
+  test("NaN is ignored", () => {
     const calc = new Calculator();
     calc.displayValue = NaN;
     calc.deleteLastDigit();
 
-    expect(calc.displayValue).toBe('0');
+    expect(calc.displayValue).toBeNaN();
   });
 
-  test("Undefined becomes '0'", () => {
+  test("Undefined is ignored", () => {
     const calc = new Calculator();
     calc.displayValue = undefined;
     calc.deleteLastDigit();
 
-    expect(calc.displayValue).toBe('0');
+    expect(calc.displayValue).toBeUndefined();
   });
 
-  test("Blank string becomes '0'", () => {
+  test("Blank string is ignored", () => {
     const calc = new Calculator();
     calc.displayValue = '';
     calc.deleteLastDigit();
 
-    expect(calc.displayValue).toBe('0');
+    expect(calc.displayValue).toBe('');
+  });
+
+  test("String is ignored", () => {
+    const calc = new Calculator();
+    calc.displayValue = 'abc';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('abc');
   });
 
   test("'0' becomes '0'", () => {
