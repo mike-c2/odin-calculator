@@ -371,6 +371,362 @@ describe('Tests inputNegativeSign', () => {
   });
 });
 
+describe('Testing fixDecimalDigits()', () => {
+  test("Null is ignored", () => {
+    const calc = new Calculator();
+    calc.displayValue = null;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBeNull();
+  });
+
+  test("NaN is ignored", () => {
+    const calc = new Calculator();
+    calc.displayValue = NaN;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBeNaN();
+  });
+
+  test("Undefined is ignored", () => {
+    const calc = new Calculator();
+    calc.displayValue = undefined;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBeUndefined();
+  });
+
+  test("Blank string is ignored", () => {
+    const calc = new Calculator();
+    calc.displayValue = '';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('');
+  });
+
+  test("String is ignored", () => {
+    const calc = new Calculator();
+    calc.displayValue = 'abc';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('abc');
+  });
+
+  test("'.789' becomes '0.789'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '.789';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('0.789');
+  });
+
+  test("'-.789' becomes '-0.789'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-.789';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-0.789');
+  });
+
+  test("'0.0' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '0.0';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'.0' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '.0';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'0.' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '0.';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'.00000000' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '.00000000';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'0000000.00000000' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '0000000.00000000';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'-0000000.00000000' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-0000000.00000000';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'0000010.00200000' becomes '10.002'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '0000010.00200000';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('10.002');
+  });
+
+  test("'-0000010.00200000' becomes '-10.002'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-0000010.00200000';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-10.002');
+  });
+
+  test("'5.' becomes '5'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '5.';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('5');
+  });
+
+  test("'-1.' becomes '-1'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-1.';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-1');
+  });
+
+  test("'12345.' becomes '12345'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '12345.';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('12345');
+  });
+
+  test("'-12345.' becomes '-12345'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-12345';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-12345');
+  });
+
+  test("'1234567890' stays the same", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    const testValue = '1234567890';
+    calc.displayValue = testValue;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe(testValue);
+  });
+
+  test("'12345678901' becomes 'Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '12345678901';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("'-1234567890' stays the same", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    const testValue = '-1234567890';
+    calc.displayValue = testValue;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe(testValue);
+  });
+
+  test("'-12345678901' becomes 'Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '-12345678901';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("'1234567890.4' becomes '1234567890'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '1234567890.4';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('1234567890');
+  });
+
+  test("'-1234567890.4' becomes '-1234567890'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '-1234567890.4';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-1234567890');
+  });
+
+  test("'1234567890.5' becomes '1234567891'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '1234567890.5';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('1234567891');
+  });
+
+  test("'-1234567890.5' becomes '-1234567891'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '-1234567890.5';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-1234567891');
+  });
+
+  test("'12345678901.3' becomes 'Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '12345678901.3';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("'-12345678901.3' becomes 'Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '-12345678901.3';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("'99999.99999' stays the same", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    const testValue = '99999.99999';
+    calc.displayValue = testValue;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe(testValue);
+  });
+
+  test("'-99999.99999' stays the same", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    const testValue = '-99999.99999';
+    calc.displayValue = testValue;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe(testValue);
+  });
+
+  test("'99999.999999' becomes '100000'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '99999.999999';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('100000');
+  });
+
+  test("'-99999.999999' becomes '-100000'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '-99999.999999';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-100000');
+  });
+
+  test("2424.353535 becomes '2424.353535'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = 2424.353535;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('2424.353535');
+  });
+
+  test("-2424.353535 becomes '-2424.353535'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = -2424.353535;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-2424.353535');
+  });
+
+  test("2424.3535357 becomes '2424.353536'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = 2424.3535357;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('2424.353536');
+  });
+
+  test("-2424.3535357 becomes '-2424.353536'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = -2424.3535357;
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-2424.353536');
+  });
+
+  test("'3.3333333333333333333' becomes '3.333333333'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '3.3333333333333333333';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('3.333333333');
+  });
+
+  test("'-3.3333333333333333333' becomes '-3.333333333'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '-3.3333333333333333333';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-3.333333333');
+  });
+
+  test("'6.6666666666666666666' becomes '6.666666667'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '6.6666666666666666666';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('6.666666667');
+  });
+
+  test("'-6.6666666666666666666' becomes '-6.666666667'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.displayValue = '-6.6666666666666666666';
+    calc.fixDecimalDigits();
+
+    expect(calc.displayValue).toBe('-6.666666667');
+  });
+});
+
 describe('Testing deleteLastDigit()', () => {
   test("Null is ignored", () => {
     const calc = new Calculator();

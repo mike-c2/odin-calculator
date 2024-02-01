@@ -100,8 +100,43 @@ class Calculator {
 
   }
 
-  deleteExtraDecimalDigits() {
+  fixDecimalDigits() {
+    if(!Calculator.isStringANumber(this.displayValue)) {
+      return;
+    }
 
+    // Eliminate preceding and succeeding '0' digits,
+    // such as '0005.7000', which becomes be '5.7'.
+    let numberString = +this.displayValue;
+    numberString = numberString.toString();
+
+    if(Calculator.getCountOfNumericalDigits(numberString) <= Calculator.MAX_DIGITS) {
+      this.displayValue = numberString;
+      return;
+    }
+
+    let integerPart;
+    let integerPartDigitCount;
+    let decimalPart;
+    let decimalPartDigitCount;
+
+    [integerPart, decimalPart] = numberString.split('.');
+
+    integerPartDigitCount = Calculator.getCountOfNumericalDigits(integerPart);
+    decimalPartDigitCount = Calculator.getCountOfNumericalDigits(decimalPart);
+
+    if(integerPartDigitCount > Calculator.MAX_DIGITS) {
+      this.displayValue = 'Overflow';
+      return;
+    }
+
+    const numberOfDecimalDigitsAllowed = Calculator.MAX_DIGITS - integerPartDigitCount;
+
+    let newNumber = +numberString
+    // Back and forth converting to remove decimal 0's a the end,
+    // for example '5.500' becomes '5.5'
+    newNumber = +newNumber.toFixed(numberOfDecimalDigitsAllowed);
+    this.displayValue = newNumber.toString();
   }
 
   deleteLastDigit() {
