@@ -366,3 +366,141 @@ describe('Tests inputNegativeSign', () => {
     expect(calc.displayValue).toBe(finalValue);
   });
 });
+
+describe('Testing deleteLastDigit()', () => {
+  test("Null becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = null;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("NaN becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = NaN;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("Undefined becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = undefined;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("Blank string becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'0' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '0';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("0 becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = 0;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'-0' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-0';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'1' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '1';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("5 becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = 5;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'-2' becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-2';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("-7 becomes '0'", () => {
+    const calc = new Calculator();
+    calc.displayValue = -7;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("'78' becomes '7'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '78';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('7');
+  });
+
+  test("89 becomes '8'", () => {
+    const calc = new Calculator();
+    calc.displayValue = 89;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('8');
+  });
+
+  test("'1.' becomes '1'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '1.';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('1');
+  });
+
+  test("'90.000' becomes '90.00'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '90.000';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('90.00');
+  });
+
+  test("'-33.3333' becomes '-33.333'", () => {
+    const calc = new Calculator();
+    calc.displayValue = '-33.3333';
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('-33.333');
+  });
+
+  test("-1234.56789 becomes '-1234.5678'", () => {
+    const calc = new Calculator();
+    calc.displayValue = -1234.56789;
+    calc.deleteLastDigit();
+
+    expect(calc.displayValue).toBe('-1234.5678');
+  });
+});

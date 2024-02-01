@@ -49,7 +49,7 @@ class Calculator {
 
   /*
     This is used for testing the input method.
-    
+
     Lets you feed it a whole string instead of
     just one character at a time.
   */
@@ -109,7 +109,19 @@ class Calculator {
   }
 
   deleteLastDigit() {
+    if(!this.displayValue) {
+      this.displayValue = '0';
+      return;
+    }
 
+    this.displayValue += '';
+
+    if(/^-?[0-9]$/.test(this.displayValue)) {
+      this.displayValue = '0';
+      return;
+    }
+
+    this.displayValue = this.displayValue.slice(0, -1);
   }
 }
 
