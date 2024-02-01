@@ -150,6 +150,100 @@ describe('Tests resetCalculator', () => {
   });
 });
 
+describe('Tests massInput(inputSequenceString)', () => {
+  test('Empty string is ignored', () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+
+    calc.massInput('');
+    
+    expect(mockInput).toHaveBeenCalledTimes(0);
+  });
+
+  test('Null is ignored', () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+
+    calc.massInput(null);
+    
+    expect(mockInput).toHaveBeenCalledTimes(0);
+  });
+
+  test('NaN is ignored', () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+
+    calc.massInput(NaN);
+    
+    expect(mockInput).toHaveBeenCalledTimes(0);
+  });
+
+  test('Undefined is ignored', () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+
+    calc.massInput(undefined);
+    
+    expect(mockInput).toHaveBeenCalledTimes(0);
+  });
+
+  test("'0' is entered", () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+
+    calc.massInput('0');
+    
+    expect(mockInput).toHaveBeenCalledTimes(1);
+    expect(mockInput).toHaveBeenLastCalledWith('0');
+  });
+
+  test("' a b c ' is entered", () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+    const inputString = ' a b c ';
+
+    calc.massInput(inputString);
+    
+    expect(mockInput).toHaveBeenCalledTimes(inputString.length);
+
+    inputString.split('').forEach((char, index) => {
+      expect(mockInput).toHaveBeenNthCalledWith(index + 1, char);
+    });
+  });
+
+  test("'1+2=3' is entered", () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+    const inputString = '1+2=3';
+
+    calc.massInput(inputString);
+    
+    expect(mockInput).toHaveBeenCalledTimes(inputString.length);
+
+    inputString.split('').forEach((char, index) => {
+      expect(mockInput).toHaveBeenNthCalledWith(index + 1, char);
+    });
+  });
+
+  test("Many characters entered", () => {
+    const calc = new Calculator();
+    const mockInput = jest.spyOn(calc, 'input').mockImplementation(jest.fn());
+    const inputString = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-+/={}[]<>.,;:';
+
+    calc.massInput(inputString);
+    
+    expect(mockInput).toHaveBeenCalledTimes(inputString.length);
+
+    inputString.split('').forEach((char, index) => {
+      expect(mockInput).toHaveBeenNthCalledWith(index + 1, char);
+    });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+});
+
 describe('Tests inputNegativeSign', () => {
   test('Empty String is ignored', () => {
     const calc = new Calculator();

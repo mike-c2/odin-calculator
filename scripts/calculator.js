@@ -47,8 +47,22 @@ class Calculator {
     this.resetDisplayValue = true;
   }
 
+  /*
+    This is used for testing the input method.
+    
+    Lets you feed it a whole string instead of
+    just one character at a time.
+  */
   massInput(inputSequenceString) {
+    if(!inputSequenceString && inputSequenceString !== 0) {
+      return;
+    }
 
+    let inputString = inputSequenceString + '';
+
+    inputString.split('').forEach(char => {
+      this.input(char)
+    });
   }
 
   input(char) {
