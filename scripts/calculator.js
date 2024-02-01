@@ -56,7 +56,22 @@ class Calculator {
   }
 
   inputNegativeSign() {
+    if(!+this.displayValue) {
+      return;
+    }
 
+    this.displayValue += ''; // keeping the type consistent
+
+    if(+this.displayValue > 0) {
+      this.displayValue = '-' + this.displayValue;
+      return;
+    }
+
+    if(+this.displayValue === 0) { // there is no -0
+      return;
+    }
+
+    this.displayValue = this.displayValue.slice(1);
   }
 
   inputDigit(digitChar) {

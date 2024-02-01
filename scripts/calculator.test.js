@@ -71,65 +71,65 @@ describe('Tests isStringANumber(numberString)', () => {
     expect(Calculator.isStringANumber('0')).toBe(true);
   });
 
-    test("'8' is true", () => {
-      expect(Calculator.isStringANumber('8')).toBe(true);
-    });
+  test("'8' is true", () => {
+    expect(Calculator.isStringANumber('8')).toBe(true);
+  });
 
-    test("'99999999999999' is true", () => {
-      expect(Calculator.isStringANumber('99999999999999')).toBe(true);
-    });
+  test("'99999999999999' is true", () => {
+    expect(Calculator.isStringANumber('99999999999999')).toBe(true);
+  });
 
-    test("'-45.77' is true", () => {
-      expect(Calculator.isStringANumber('-45.77')).toBe(true);
-    });
+  test("'-45.77' is true", () => {
+    expect(Calculator.isStringANumber('-45.77')).toBe(true);
+  });
 
-    test("'.5' is true", () => {
-      expect(Calculator.isStringANumber('.5')).toBe(true);
-    });
+  test("'.5' is true", () => {
+    expect(Calculator.isStringANumber('.5')).toBe(true);
+  });
 
-    test("'-.01' is true", () => {
-      expect(Calculator.isStringANumber('-.01')).toBe(true);
-    });
+  test("'-.01' is true", () => {
+    expect(Calculator.isStringANumber('-.01')).toBe(true);
+  });
 
-    test("'-45.x77' is false", () => {
-      expect(Calculator.isStringANumber('-45.x77')).toBe(false);
-    });
+  test("'-45.x77' is false", () => {
+    expect(Calculator.isStringANumber('-45.x77')).toBe(false);
+  });
 
-    test("'a777' is false", () => {
-      expect(Calculator.isStringANumber('a777')).toBe(false);
-    });
+  test("'a777' is false", () => {
+    expect(Calculator.isStringANumber('a777')).toBe(false);
+  });
 
-    test('Empty string is false', () => {
-      expect(Calculator.isStringANumber('')).toBe(false);
-    });
+  test('Empty string is false', () => {
+    expect(Calculator.isStringANumber('')).toBe(false);
+  });
 
-    test("'cat' is false", () => {
-      expect(Calculator.isStringANumber('cat')).toBe(false);
-    });
+  test("'cat' is false", () => {
+    expect(Calculator.isStringANumber('cat')).toBe(false);
+  });
 
-    test('0 is true', () => {
-      expect(Calculator.isStringANumber(0)).toBe(true);
-    });
+  test('0 is true', () => {
+    expect(Calculator.isStringANumber(0)).toBe(true);
+  });
 
-    test('7.777 is true', () => {
-      expect(Calculator.isStringANumber(7.777)).toBe(true);
-    });
+  test('7.777 is true', () => {
+    expect(Calculator.isStringANumber(7.777)).toBe(true);
+  });
 
-    test('-9.0 is true', () => {
-      expect(Calculator.isStringANumber(-9.0)).toBe(true);
-    });
+  test('-9.0 is true', () => {
+    expect(Calculator.isStringANumber(-9.0)).toBe(true);
+  });
 
-    test('null is false', () => {
-      expect(Calculator.isStringANumber(null)).toBe(false);
-    });
+  test('null is false', () => {
+    expect(Calculator.isStringANumber(null)).toBe(false);
+  });
 
-    test('NaN is false', () => {
-      expect(Calculator.isStringANumber(NaN)).toBe(false);
-    });
+  test('NaN is false', () => {
+    expect(Calculator.isStringANumber(NaN)).toBe(false);
+  });
 
-    test('undefined is false', () => {
-      expect(Calculator.isStringANumber(undefined)).toBe(false);
-    });
+  test('undefined is false', () => {
+    expect(Calculator.isStringANumber(undefined)).toBe(false);
+  });
 });
 
 describe('Tests resetCalculator', () => {
@@ -147,5 +147,128 @@ describe('Tests resetCalculator', () => {
     expect(calc.operator).toBe('+');
     expect(calc.displayValue).toBe('0');
     expect(calc.resetDisplayValue).toBe(true);
+  });
+});
+
+describe('Tests inputNegativeSign', () => {
+  test('Empty String is ignored', () => {
+    const calc = new Calculator();
+    const initialValue = '';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(initialValue);
+  });
+
+  test('String is ignored', () => {
+    const calc = new Calculator();
+    const initialValue = 'dog';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(initialValue);
+  });
+
+  test('Null is ignored', () => {
+    const calc = new Calculator();
+    const initialValue = null;
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBeNull();
+  });
+
+  test('NaN is ignored', () => {
+    const calc = new Calculator();
+    const initialValue = NaN;
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBeNaN();
+  });
+
+  test('Undefined is ignored', () => {
+    const calc = new Calculator();
+    const initialValue = undefined;
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBeUndefined();
+  });
+
+  test("'0' is ignored", () => {
+    const calc = new Calculator();
+    const initialValue = '0';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(initialValue);
+  });
+
+  test("0 is ignored", () => {
+    const calc = new Calculator();
+    const initialValue = 0;
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(initialValue);
+  });
+
+  test("'1' becomes '-1'", () => {
+    const calc = new Calculator();
+    const initialValue = '1';
+    const finalValue = '-1';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(finalValue);
+  });
+
+  test("2 becomes '-2'", () => {
+    const calc = new Calculator();
+    const initialValue = 2;
+    const finalValue = '-2';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(finalValue);
+  });
+
+  test("'-900' becomes '900'", () => {
+    const calc = new Calculator();
+    const initialValue = '-900';
+    const finalValue = '900';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+  });
+
+  test("'999999' becomes '-999999'", () => {
+    const calc = new Calculator();
+    const initialValue = '999999';
+    const finalValue = '-999999';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(finalValue);
+  });
+
+  test("'1.23' becomes '-1.23'", () => {
+    const calc = new Calculator();
+    const initialValue = '1.23';
+    const finalValue = '-1.23';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(finalValue);
+  });
+
+  test("'-0.0000001' becomes '0.0000001'", () => {
+    const calc = new Calculator();
+    const initialValue = '-0.0000001';
+    const finalValue = '0.0000001';
+    calc.displayValue = initialValue;
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe(finalValue);
   });
 });
