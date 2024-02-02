@@ -861,6 +861,10 @@ describe('Tests inputNegativeSign', () => {
 
 });
 
+describe('Tests inputDigit(digitChar)', () => {
+
+});
+
 describe('Tests fixDecimalDigits()', () => {
   test("Null is ignored", () => {
     const calc = new Calculator();

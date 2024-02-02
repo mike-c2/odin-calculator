@@ -131,10 +131,8 @@ class Calculator {
       this.displayValue = '-' + this.displayValue;
     }
 
-    // console.log(`before ${this.leftOperand}`);
     if(this.resetDisplayValue && this.leftOperand !== null) {
       this.leftOperand = +this.displayValue;
-      // console.log(`after ${this.leftOperand}`);
     }
   }
 
