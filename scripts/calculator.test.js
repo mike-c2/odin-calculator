@@ -249,10 +249,9 @@ describe('Tests massInput(inputSequenceString)', () => {
 });
 
 describe('Tests input(char)', () => {
-  test("'a' (All-Clear) resets calc on resetDisplayValue = false and error", () => {
+  test("'a' (All-Clear) resets calc with error", () => {
     const calc = new Calculator();
     calc.displayValue = 'error';
-    calc.resetDisplayValue = false;
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
@@ -271,10 +270,9 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("'A' (All-Clear) resets calc on resetDisplayValue = false and error", () => {
+  test("'A' (All-Clear) resets calc with error", () => {
     const calc = new Calculator();
     calc.displayValue = 'error';
-    calc.resetDisplayValue = false;
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
@@ -293,10 +291,9 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("'a' (All-Clear) resets calc on resetDisplayValue = true and error", () => {
+  test("'a' (All-Clear) resets calc with no error", () => {
     const calc = new Calculator();
-    calc.displayValue = 'error';
-    calc.resetDisplayValue = true;
+    calc.displayValue = '5';
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
@@ -315,10 +312,9 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("'A' (All-Clear) resets calc on resetDisplayValue = true and error", () => {
+  test("'A' (All-Clear) resets calc with no error", () => {
     const calc = new Calculator();
-    calc.displayValue = 'error';
-    calc.resetDisplayValue = true;
+    calc.displayValue = '5';
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
@@ -337,95 +333,7 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("'a' (All-Clear) resets calc on resetDisplayValue = false and no error", () => {
-    const calc = new Calculator();
-    calc.displayValue = '5';
-    calc.resetDisplayValue = false;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    calc.input('a');
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(1);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(0);
-    expect(mockInputDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputEquals).toHaveBeenCalledTimes(0);
-    expect(mockInputOperator).toHaveBeenCalledTimes(0);
-  });
-
-  test("'A' (All-Clear) resets calc on resetDisplayValue = false and no error", () => {
-    const calc = new Calculator();
-    calc.displayValue = '5';
-    calc.resetDisplayValue = false;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    calc.input('A');
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(1);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(0);
-    expect(mockInputDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputEquals).toHaveBeenCalledTimes(0);
-    expect(mockInputOperator).toHaveBeenCalledTimes(0);
-  });
-
-  test("'a' (All-Clear) resets calc on resetDisplayValue = true and no error", () => {
-    const calc = new Calculator();
-    calc.displayValue = '5';
-    calc.resetDisplayValue = true;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    calc.input('a');
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(1);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(0);
-    expect(mockInputDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputEquals).toHaveBeenCalledTimes(0);
-    expect(mockInputOperator).toHaveBeenCalledTimes(0);
-  });
-
-  test("'A' (All-Clear) resets calc on resetDisplayValue = true and no error", () => {
-    const calc = new Calculator();
-    calc.displayValue = '5';
-    calc.resetDisplayValue = true;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    calc.input('A');
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(1);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(0);
-    expect(mockInputDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputEquals).toHaveBeenCalledTimes(0);
-    expect(mockInputOperator).toHaveBeenCalledTimes(0);
-  });
-
-  test("All valid input, not including All-Clear, are ignored on error, regardless of resetDisplayValue", () => {
+  test("All valid input, not including All-Clear, are ignored on error", () => {
     const calc = new Calculator();
     calc.displayValue = 'error';
 
@@ -438,13 +346,10 @@ describe('Tests input(char)', () => {
 
     const validInputValues = ['c', 'C', 'd', 'D', '!', '+', '-', '*', '/', '=', '.'];
     for (let i = 0; i < 10; i++) {
+      validInputValues.push(i);
       validInputValues.push(i.toString());
     }
 
-    calc.resetDisplayValue = false;
-    validInputValues.forEach(inputValue => calc.input(inputValue));
-
-    calc.resetDisplayValue = true;
     validInputValues.forEach(inputValue => calc.input(inputValue));
 
     expect(mockResetCalculator).toHaveBeenCalledTimes(0);
@@ -455,7 +360,7 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("Invalid data are ignored regardless of error and resetDisplayValue", () => {
+  test("Invalid data are ignored regardless of error", () => {
     const calc = new Calculator();
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
@@ -468,15 +373,9 @@ describe('Tests input(char)', () => {
     const validInputValues = [null, undefined, NaN, '', ' ', 'cat', {}, '77', 65, Infinity, -Infinity, 'z'];
 
     calc.displayValue = 'error';
-    calc.resetDisplayValue = false;
-    validInputValues.forEach(inputValue => calc.input(inputValue));
-    calc.resetDisplayValue = true;
     validInputValues.forEach(inputValue => calc.input(inputValue));
 
     calc.displayValue = '777';
-    calc.resetDisplayValue = false;
-    validInputValues.forEach(inputValue => calc.input(inputValue));
-    calc.resetDisplayValue = true;
     validInputValues.forEach(inputValue => calc.input(inputValue));
 
     expect(mockResetCalculator).toHaveBeenCalledTimes(0);
@@ -675,9 +574,8 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("'!' (Flip +/-) calls inputNegativeSign() when resetDisplayValue = true", () => {
+  test("'!' (Flip +/-) calls inputNegativeSign()", () => {
     const calc = new Calculator();
-    calc.resetDisplayValue = true;
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
@@ -696,30 +594,8 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("'!' (Flip +/-) calls inputNegativeSign() when resetDisplayValue = false", () => {
+  test("Number and decimal digits calls inputDigit()", () => {
     const calc = new Calculator();
-    calc.resetDisplayValue = false;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    calc.input('!');
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(0);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(1);
-    expect(mockInputDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputEquals).toHaveBeenCalledTimes(0);
-    expect(mockInputOperator).toHaveBeenCalledTimes(0);
-  });
-
-  test("Number and decimal digits calls inputDigit() when resetDisplayValue = true", () => {
-    const calc = new Calculator();
-    calc.resetDisplayValue = true;
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
@@ -746,38 +622,8 @@ describe('Tests input(char)', () => {
     digits.forEach((digit, index) => expect(mockInputDigit).toHaveBeenNthCalledWith(index + 1, digit));
   });
 
-  test("Number and decimal digits calls inputDigit() when resetDisplayValue = false", () => {
+  test("'=' calls inputEquals()", () => {
     const calc = new Calculator();
-    calc.resetDisplayValue = false;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    const digits = ['.'];
-    for(let i = 0; i < 10; i++) {
-      digits.push(i);
-      digits.push(i.toString());
-    }
-
-    digits.forEach(digit => calc.inputDigit(digit));
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(0);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(0);
-    expect(mockInputDigit).toHaveBeenCalledTimes(digits.length);
-    expect(mockInputEquals).toHaveBeenCalledTimes(0);
-    expect(mockInputOperator).toHaveBeenCalledTimes(0);
-
-    digits.forEach((digit, index) => expect(mockInputDigit).toHaveBeenNthCalledWith(index + 1, digit));
-  });
-
-  test("'=' calls inputEquals() when resetDisplayValue = true", () => {
-    const calc = new Calculator();
-    calc.resetDisplayValue = true;
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
@@ -796,55 +642,8 @@ describe('Tests input(char)', () => {
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
   });
 
-  test("'=' calls inputEquals() when resetDisplayValue = false", () => {
+  test("Operators calls inputOperator()", () => {
     const calc = new Calculator();
-    calc.resetDisplayValue = false;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    calc.input('=');
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(0);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(0);
-    expect(mockInputDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputEquals).toHaveBeenCalledTimes(1);
-    expect(mockInputOperator).toHaveBeenCalledTimes(0);
-  });
-
-  test("Operators calls inputOperator() when resetDisplayValue = true", () => {
-    const calc = new Calculator();
-    calc.resetDisplayValue = true;
-
-    const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
-    const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
-    const mockInputNegativeSign = jest.spyOn(calc, 'inputNegativeSign').mockImplementation(jest.fn());
-    const mockInputDigit = jest.spyOn(calc, 'inputDigit').mockImplementation(jest.fn());
-    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
-    const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
-
-    const operators = ['+', '-', '*', '/'];
-
-    operators.forEach(digit => calc.inputOperator(digit));
-
-    expect(mockResetCalculator).toHaveBeenCalledTimes(0);
-    expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputNegativeSign).toHaveBeenCalledTimes(0);
-    expect(mockInputDigit).toHaveBeenCalledTimes(0);
-    expect(mockInputEquals).toHaveBeenCalledTimes(0);
-    expect(mockInputOperator).toHaveBeenCalledTimes(operators.length);
-
-    operators.forEach((operator, index) => expect(mockInputOperator).toHaveBeenNthCalledWith(index + 1, operator));
-  });
-
-  test("Operators calls inputOperator() when resetDisplayValue = false", () => {
-    const calc = new Calculator();
-    calc.resetDisplayValue = false;
 
     const mockResetCalculator = jest.spyOn(calc, 'resetCalculator').mockImplementation(jest.fn());
     const mockDeleteLastDigit = jest.spyOn(calc, 'deleteLastDigit').mockImplementation(jest.fn());
