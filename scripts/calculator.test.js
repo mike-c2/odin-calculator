@@ -861,7 +861,7 @@ describe('Tests inputNegativeSign', () => {
 
 });
 
-describe('Testing fixDecimalDigits()', () => {
+describe('Tests fixDecimalDigits()', () => {
   test("Null is ignored", () => {
     const calc = new Calculator();
     calc.displayValue = null;
@@ -1217,7 +1217,7 @@ describe('Testing fixDecimalDigits()', () => {
   });
 });
 
-describe('Testing deleteLastDigit()', () => {
+describe('Tests deleteLastDigit()', () => {
   test("Null is ignored", () => {
     const calc = new Calculator();
     calc.displayValue = null;
