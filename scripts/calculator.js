@@ -62,7 +62,56 @@ class Calculator {
   }
 
   input(char) {
+    if(typeof char !== 'string' && typeof char !== 'number') {
+      return;
+    }
 
+    // Convert numbers into strings before converting.
+    const character = `${char}`.toLowerCase();
+
+    if(character === 'a') {
+      this.resetCalculator();
+      return;
+    }
+
+    if(!Calculator.isStringANumber(this.displayValue)) {
+      return;
+    }
+
+    if((character === 'c' || character === 'd') && this.resetDisplayValue) {
+      this.inputDigit('0');
+      return;
+    }
+
+    if(character === 'c') {
+      this.displayValue = '0';
+      return;
+    }
+
+    if(character === 'd') {
+      this.deleteLastDigit();
+      return;
+    }
+
+    if(character === '!') {
+      this.inputNegativeSign();
+      return;
+    }
+
+    if(/^[0-9.]$/.test(character)) {
+      this.inputDigit(character);
+      return;
+    }
+
+    if(character === '=') {
+      this.inputEquals();
+      return;
+    }
+
+    if(character === '+' || character === '-' || character === '*' || character === '/') {
+      this.inputOperator(character);
+      return;
+    }
   }
 
   inputNegativeSign() {
