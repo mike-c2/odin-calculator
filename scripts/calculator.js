@@ -121,16 +121,21 @@ class Calculator {
 
     this.displayValue += ''; // keeping the type consistent
 
-    if(+this.displayValue > 0) {
-      this.displayValue = '-' + this.displayValue;
-      return;
-    }
-
     if(+this.displayValue === 0) { // there is no -0
       return;
     }
 
-    this.displayValue = this.displayValue.slice(1);
+    if(+this.displayValue < 0) {
+      this.displayValue = this.displayValue.slice(1);
+    } else if(+this.displayValue > 0) {
+      this.displayValue = '-' + this.displayValue;
+    }
+
+    // console.log(`before ${this.leftOperand}`);
+    if(this.resetDisplayValue && this.leftOperand !== null) {
+      this.leftOperand = +this.displayValue;
+      // console.log(`after ${this.leftOperand}`);
+    }
   }
 
   inputDigit(digitChar) {

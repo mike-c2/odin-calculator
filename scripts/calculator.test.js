@@ -792,6 +792,73 @@ describe('Tests inputNegativeSign', () => {
 
     expect(calc.displayValue).toBe(finalValue);
   });
+
+  test("'7' to '-7' change does not affect leftOperand when resetDisplayValue = false", () => {
+    const calc = new Calculator();
+    calc.resetDisplayValue = false;
+    calc.leftOperand = 100;
+    calc.displayValue = '7';
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe('-7');
+    expect(calc.leftOperand).toBe(100);
+  });
+
+  test("'-8' to '8' change does not affect leftOperand when resetDisplayValue = false", () => {
+    const calc = new Calculator();
+    calc.resetDisplayValue = false;
+    calc.leftOperand = 100;
+    calc.displayValue = '-8';
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe('8');
+    expect(calc.leftOperand).toBe(100);
+  });
+
+  test("'9' to '-9' change does not affect leftOperand when its null and resetDisplayValue = true", () => {
+    const calc = new Calculator();
+    calc.resetDisplayValue = true;
+    calc.leftOperand = null;
+    calc.displayValue = '9';
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe('-9');
+    expect(calc.leftOperand).toBeNull();
+  });
+
+  test("'-3' to '3' change does not affect leftOperand when its null and resetDisplayValue = true", () => {
+    const calc = new Calculator();
+    calc.resetDisplayValue = true;
+    calc.leftOperand = null;
+    calc.displayValue = '-3';
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe('3');
+    expect(calc.leftOperand).toBeNull();
+  });
+
+  test("'22' to '-22' also sets leftOperand to -22 when its not null and resetDisplayValue = true", () => {
+    const calc = new Calculator();
+    calc.resetDisplayValue = true;
+    calc.leftOperand = 1000;
+    calc.displayValue = '22';
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe('-22');
+    expect(calc.leftOperand).toBe(-22);
+  });
+
+  test("'-55.01' to '55.01' also sets leftOperand to 55.01 when its not null and resetDisplayValue = true", () => {
+    const calc = new Calculator();
+    calc.resetDisplayValue = true;
+    calc.leftOperand = 1000;
+    calc.displayValue = '-55.01';
+    calc.inputNegativeSign();
+
+    expect(calc.displayValue).toBe('55.01');
+    expect(calc.leftOperand).toBe(55.01);
+  });
+
 });
 
 describe('Testing fixDecimalDigits()', () => {
