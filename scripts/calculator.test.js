@@ -146,11 +146,11 @@ describe('Tests resetCalculator', () => {
     calc.resetDisplayValue = false;
     calc.resetCalculator();
 
-    expect(calc.leftOperand).toBe(0);
-    expect(calc.rightOperand).toBe(0);
-    expect(calc.operator).toBe('+');
+    expect(calc.leftOperand).toBeNull();
+    expect(calc.rightOperand).toBeNull();
+    expect(calc.operator).toBeNull();
     expect(calc.displayValue).toBe('0');
-    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.resetDisplayValue).toBe(false);
   });
 });
 

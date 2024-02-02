@@ -36,11 +36,11 @@ class Calculator {
   }
 
   resetCalculator() {
-    this.leftOperand = 0;
-    this.rightOperand = 0;
-    this.operator = '+';
+    this.leftOperand = null;
+    this.rightOperand = null;
+    this.operator = null;
     this.displayValue = "0";
-    this.resetDisplayValue = true;
+    this.resetDisplayValue = false;
   }
 
   /*
