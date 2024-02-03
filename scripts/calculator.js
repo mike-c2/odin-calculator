@@ -57,7 +57,7 @@ class Calculator {
     let inputString = inputSequenceString + '';
 
     inputString.split('').forEach(char => {
-      this.input(char)
+      this.input(char);
     });
   }
 
