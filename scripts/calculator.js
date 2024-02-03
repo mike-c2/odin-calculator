@@ -174,12 +174,11 @@ class Calculator {
       return;
     }
 
-    this.operator = newOperator;
-
     if(!this.resetDisplayValue) {
-      this.resetDisplayValue = true;
       this.inputEquals();
     }
+
+    this.operator = newOperator;
   }
 
   inputEquals() {
