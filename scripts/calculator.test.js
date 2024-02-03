@@ -862,7 +862,371 @@ describe('Tests inputNegativeSign', () => {
 });
 
 describe('Tests inputDigit(digitChar)', () => {
+  test('All invalid input are ignored regardless of what resetDisplayValue is set to', () => {
+    const calc = new Calculator();
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = '*';
+    calc.displayValue = '11.11';
+    
+    const invalidInputs = [null, undefined, NaN, '', 44, '55', 56.7, 8.88, {}, 'a', 'abc', Infinity, -Infinity];
 
+    calc.resetDisplayValue = true;
+    invalidInputs.forEach(badInput => {
+      calc.inputDigit(badInput);
+      expect(calc.leftOperand).toBe(2);
+      expect(calc.rightOperand).toBe(3);
+      expect(calc.operator).toBe('*');
+      expect(calc.displayValue).toBe('11.11');
+      expect(calc.resetDisplayValue).toBe(true);
+    });
+
+    calc.resetDisplayValue = false;
+    invalidInputs.forEach(badInput => {
+      calc.inputDigit(badInput);
+      expect(calc.leftOperand).toBe(2);
+      expect(calc.rightOperand).toBe(3);
+      expect(calc.operator).toBe('*');
+      expect(calc.displayValue).toBe('11.11');
+      expect(calc.resetDisplayValue).toBe(false);
+    });
+  });
+
+  test("Entering '.' while displayValue already has '.', is ignored, while resetDisplayValue is false", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 34.5;
+    calc.rightOperand = -11.11;
+    calc.operator = '-';
+    calc.resetDisplayValue = false;
+
+    const displayValueList = ['0.', '1.', '-2.', '454.', '-9999.', '3.14', '3.333333', '5.0', '78.00001', '59.000000'];
+
+    displayValueList.forEach(nextDisplayValue => {
+      calc.displayValue = nextDisplayValue;
+      calc.inputDigit('.');
+
+      expect(calc.leftOperand).toBe(34.5);
+      expect(calc.rightOperand).toBe(-11.11);
+      expect(calc.operator).toBe('-');
+      expect(calc.resetDisplayValue).toBe(false);
+      expect(calc.displayValue).toBe(nextDisplayValue);
+    });
+  });
+
+  test("Entering a valid digit while displayValue is invalid, is ignored, regardless of resetDisplayValue", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 34.5;
+    calc.rightOperand = -11.11;
+    calc.operator = '-';
+    calc.displayValue = 'Overflow';
+
+    const validDigits = ['.'];
+
+    for(let i = 0; i < 10; i++) {
+      validDigits.push(i);
+      validDigits.push(i.toString());
+    }
+
+    calc.resetDisplayValue = false;
+    validDigits.forEach(digit => {
+      calc.inputDigit(digit);
+
+      expect(calc.leftOperand).toBe(34.5);
+      expect(calc.rightOperand).toBe(-11.11);
+      expect(calc.operator).toBe('-');
+      expect(calc.resetDisplayValue).toBe(false);
+      expect(calc.displayValue).toBe('Overflow');
+    });
+
+    calc.resetDisplayValue = true;
+    validDigits.forEach(digit => {
+      calc.inputDigit(digit);
+
+      expect(calc.leftOperand).toBe(34.5);
+      expect(calc.rightOperand).toBe(-11.11);
+      expect(calc.operator).toBe('-');
+      expect(calc.resetDisplayValue).toBe(true);
+      expect(calc.displayValue).toBe('Overflow');
+    });
+
+  });
+
+  test('Entering a valid digit while displayValue is a max length integer, is ignored, when resetDisplayValue = false', () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 8.5;
+    calc.rightOperand = 100;
+    calc.operator = '-';
+    calc.displayValue = '1234567890';
+
+    const validDigits = ['.'];
+
+    for(let i = 0; i < 10; i++) {
+      validDigits.push(i);
+      validDigits.push(i.toString());
+    }
+
+    calc.resetDisplayValue = false;
+    validDigits.forEach(digit => {
+      calc.inputDigit(digit);
+
+      expect(calc.leftOperand).toBe(8.5);
+      expect(calc.rightOperand).toBe(100);
+      expect(calc.operator).toBe('-');
+      expect(calc.resetDisplayValue).toBe(false);
+      expect(calc.displayValue).toBe('1234567890');
+    });
+  });
+
+  test('Entering a valid digit while displayValue is a max length decimal, is ignored, when resetDisplayValue = false', () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 8.5;
+    calc.rightOperand = 100;
+    calc.operator = '-';
+    calc.displayValue = '12345.67890';
+
+    const validDigits = [];
+
+    for(let i = 0; i < 10; i++) {
+      validDigits.push(i);
+      validDigits.push(i.toString());
+    }
+
+    calc.resetDisplayValue = false;
+    validDigits.forEach(digit => {
+      calc.inputDigit(digit);
+
+      expect(calc.leftOperand).toBe(8.5);
+      expect(calc.rightOperand).toBe(100);
+      expect(calc.operator).toBe('-');
+      expect(calc.resetDisplayValue).toBe(false);
+      expect(calc.displayValue).toBe('12345.67890');
+    });
+  });
+
+  test("Entering '3' while displayValue is is a max length number, is processed, when resetDisplayValue is true", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '123456.7890';
+
+    calc.inputDigit('3');
+
+    // values are shifted: leftOperand = rightOperand, rightOperand = displayValue
+    expect(calc.leftOperand).toBe(5);
+    expect(calc.rightOperand).toBe(123456.7890);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('3');
+  });
+
+  test("Entering '0' while displayValue is '0', is ignored, when resetDisplayValue is false", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '0';
+
+    calc.inputDigit('0');
+
+    expect(calc.leftOperand).toBe(-1);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("Entering '0' while displayValue is '0', is processed, when resetDisplayValue is true", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '0';
+
+    calc.inputDigit('0');
+
+    expect(calc.leftOperand).toBe(5);
+    expect(calc.rightOperand).toBe(0);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('0');
+  });
+
+  test("Entering '.' while displayValue is '0' and resetDisplayValue is false", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '0';
+
+    calc.inputDigit('.');
+
+    expect(calc.leftOperand).toBe(-1);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('0.');
+  });
+
+  test("Entering '.' while displayValue is '0' and resetDisplayValue is true", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '0';
+
+    calc.inputDigit('.');
+
+    expect(calc.leftOperand).toBe(5);
+    expect(calc.rightOperand).toBe(0);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('0.');
+  });
+
+  test("Entering '8' while displayValue is '1' and resetDisplayValue is false", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '1';
+
+    calc.inputDigit('8');
+
+    expect(calc.leftOperand).toBe(-1);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('18');
+  });
+
+  test("Entering '8' while displayValue is '1' and resetDisplayValue is true", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '1';
+
+    calc.inputDigit('8');
+
+    expect(calc.leftOperand).toBe(5);
+    expect(calc.rightOperand).toBe(1);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('8');
+  });
+
+  test("Entering '3' while displayValue is '-565' and resetDisplayValue is false", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '-565';
+
+    calc.inputDigit('3');
+
+    expect(calc.leftOperand).toBe(-1);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('-5653');
+  });
+
+  test("Entering '3' while displayValue is '-565' and resetDisplayValue is true", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '-565';
+
+    calc.inputDigit('3');
+
+    expect(calc.leftOperand).toBe(5);
+    expect(calc.rightOperand).toBe(-565);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('3');
+  });
+
+  test("Entering '5' while displayValue is '-565.44' and resetDisplayValue is false", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '-565.44';
+
+    calc.inputDigit('5');
+
+    expect(calc.leftOperand).toBe(-1);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('-565.445');
+  });
+
+  test("Entering '5' while displayValue is '-565.44' and resetDisplayValue is true", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '-565.44';
+
+    calc.inputDigit('5');
+
+    expect(calc.leftOperand).toBe(5);
+    expect(calc.rightOperand).toBe(-565.44);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('5');
+  });
+
+  test("Entering '.' while displayValue is '333' and resetDisplayValue is false", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '333';
+
+    calc.inputDigit('.');
+
+    expect(calc.leftOperand).toBe(-1);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('333.');
+  });
+
+  test("Entering '.' while displayValue is '333' and resetDisplayValue is true", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -1;
+    calc.rightOperand = 5;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '333';
+
+    calc.inputDigit('.');
+
+    expect(calc.leftOperand).toBe(5);
+    expect(calc.rightOperand).toBe(333);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(false);
+    expect(calc.displayValue).toBe('0.');
+  });
 });
 
 describe('Tests fixDecimalDigits()', () => {

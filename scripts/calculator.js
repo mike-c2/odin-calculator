@@ -137,7 +137,34 @@ class Calculator {
   }
 
   inputDigit(digitChar) {
+    const digit = digitChar + '';
 
+    if( !(/^[0-9.]$/.test(digitChar) && Calculator.isStringANumber(this.displayValue)) ) {
+      return;
+    }
+
+    if(this.resetDisplayValue) {
+      this.leftOperand = this.rightOperand;
+      this.rightOperand = +this.displayValue;
+      this.displayValue = '0';
+      this.resetDisplayValue = false;
+    }
+
+    if(digit !== '.' && this.displayValue === '0') {
+      this.displayValue = digit;
+      return;
+    }
+
+    // Cannot enter a decimal point if one already is present
+    if(digit === '.' && /\./.test(this.displayValue)) {
+      return;
+    }
+
+    if(Calculator.getCountOfNumericalDigits(this.displayValue) >= Calculator.MAX_DIGITS) {
+      return;
+    }
+
+    this.displayValue += digit;
   }
 
   inputEquals() {
