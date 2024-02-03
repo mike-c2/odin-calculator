@@ -183,6 +183,58 @@ class Calculator {
 
   inputEquals() {
 
+    if (!Calculator.isStringANumber(this.displayValue)) {
+      return;
+    }
+
+    if (this.operator !== '+' && this.operator !== '-' && this.operator !== '*' && this.operator !== '/') {
+      return;
+    }
+
+    if (this.rightOperand === null) {
+      return;
+    }
+
+    if (this.leftOperand === null && this.resetDisplayValue) {
+      return;
+    }
+
+    if (!this.resetDisplayValue) {
+      this.leftOperand = this.rightOperand;
+      this.rightOperand = +this.displayValue;
+      this.resetDisplayValue = true;
+    }
+
+    let result;
+
+    switch (this.operator) {
+      case '+':
+        result = this.leftOperand + this.rightOperand;
+        break;
+      case '-':
+        result = this.leftOperand - this.rightOperand;
+        break;
+      case '*':
+        result = this.leftOperand * this.rightOperand;
+        break;
+      case '/':
+        if (this.rightOperand === 0) {
+          this.displayValue = 'Div by 0!';
+          return;
+        }
+        result = this.leftOperand / this.rightOperand;
+    }
+
+    result = +result.toFixed(Calculator.MAX_DIGITS);
+
+    if (result < Calculator.MIN_VALUE || result > Calculator.MAX_VALUE) {
+      this.displayValue = 'Overflow';
+      return;
+    }
+
+    this.displayValue = result.toString();
+    this.fixDecimalDigits();
+    this.leftOperand = +this.displayValue;
   }
 
   fixDecimalDigits() {

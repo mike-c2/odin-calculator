@@ -1326,6 +1326,464 @@ describe('Tests inputOperator(operatorChar)', () => {
   });
 });
 
+describe('Tests inputEquals()', () => {
+  test('Does not do anything when displayValue is not valid', () => {
+    const calc = new Calculator();
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = '-';
+    calc.resetDisplayValue = true;
+    calc.displayValue = 'Invalid';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(2);
+    expect(calc.rightOperand).toBe(3);
+    expect(calc.operator).toBe('-');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('Invalid');
+  });
+
+  test('Does not do anything when operator is null', () => {
+    const calc = new Calculator();
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = null;
+    calc.resetDisplayValue = true;
+    calc.displayValue = '100';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(2);
+    expect(calc.rightOperand).toBe(3);
+    expect(calc.operator).toBeNull();
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('100');
+  });
+
+  test('Does not do anything when rightOperand is null', () => {
+    const calc = new Calculator();
+    calc.leftOperand = 2;
+    calc.rightOperand = null;
+    calc.operator = '*';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '100';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(2);
+    expect(calc.rightOperand).toBeNull();
+    expect(calc.operator).toBe('*');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('100');
+  });
+
+  test('Does not do anything when leftOperand is null and resetDisplayValue is true', () => {
+    const calc = new Calculator();
+    calc.leftOperand = null;
+    calc.rightOperand = 5;
+    calc.operator = '*';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '100';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBeNull();
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('*');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('100');
+  });
+
+  test('Makes calculation when leftOperand is null and resetDisplayValue is false', () => {
+    const calc = new Calculator();
+    calc.leftOperand = null;
+    calc.rightOperand = 5;
+    calc.operator = '+';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '100';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(105);
+    expect(calc.rightOperand).toBe(100);
+    expect(calc.operator).toBe('+');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('105');
+  });
+
+  test("leftOp=3, rightOp=5, operator='+', displayValue='4', resetDisplayValue=false: Updated displayValue='9'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 3;
+    calc.rightOperand = 5;
+    calc.operator = '+';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '4';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(9);
+    expect(calc.rightOperand).toBe(4);
+    expect(calc.operator).toBe('+');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('9');
+  });
+
+  test("leftOp=3.1, rightOp=5, operator='+', displayValue='4', resetDisplayValue=true: Updated displayValue='8.1'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 3.1;
+    calc.rightOperand = 5;
+    calc.operator = '+';
+    calc.resetDisplayValue = true;
+    // Normally displayValue is the string version of leftOperand,
+    // when resetDisplayValue is true.  This is for testing purposes.
+    calc.displayValue = '4';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(8.1);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('+');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('8.1');
+  });
+
+  test("leftOp=-3, rightOp=5, operator='+', displayValue='-4.01', resetDisplayValue=false: Updated displayValue='0.99'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 3;
+    calc.rightOperand = 5;
+    calc.operator = '+';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '-4.01';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(0.99);
+    expect(calc.rightOperand).toBe(-4.01);
+    expect(calc.operator).toBe('+');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('0.99');
+  });
+
+  test("leftOp=-3, rightOp=5, operator='+', displayValue='-4.01', resetDisplayValue=true: Updated displayValue='2'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -3;
+    calc.rightOperand = 5;
+    calc.operator = '+';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '-4.01';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(2);
+    expect(calc.rightOperand).toBe(5);
+    expect(calc.operator).toBe('+');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('2');
+  });
+
+  test("leftOp=25.25, rightOp=4.25, operator='-', displayValue='5.05', resetDisplayValue=false: Updated displayValue='-0.8'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 25.25;
+    calc.rightOperand = 4.25;
+    calc.operator = '-';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '5.05';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(-0.8);
+    expect(calc.rightOperand).toBe(5.05);
+    expect(calc.operator).toBe('-');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('-0.8');
+  });
+
+  test("leftOp=25.25, rightOp=4.25, operator='-', displayValue='5.05', resetDisplayValue=true: Updated displayValue='21'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 25.25;
+    calc.rightOperand = 4.25;
+    calc.operator = '-';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '5.05';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(21);
+    expect(calc.rightOperand).toBe(4.25);
+    expect(calc.operator).toBe('-');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('21');
+  });
+
+  test("leftOp=4, rightOp=-3.5, operator='-', displayValue='-2', resetDisplayValue=false: Updated displayValue='-1.5'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 4;
+    calc.rightOperand = -3.5;
+    calc.operator = '-';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '-2';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(-1.5);
+    expect(calc.rightOperand).toBe(-2);
+    expect(calc.operator).toBe('-');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('-1.5');
+  });
+
+  test("leftOp=4, rightOp=-3.5, operator='-', displayValue='-2', resetDisplayValue=true: Updated displayValue='7.5'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 4;
+    calc.rightOperand = -3.5;
+    calc.operator = '-';
+    calc.resetDisplayValue = true;
+    // Normally this would be the same as leftOperand when resetDisplayValue=true
+    calc.displayValue = '-2';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(7.5);
+    expect(calc.rightOperand).toBe(-3.5);
+    expect(calc.operator).toBe('-');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('7.5');
+  });
+
+  test("leftOp=4.5, rightOp=-3.5, operator='*', displayValue='1.1', resetDisplayValue=false: Updated displayValue='-3.85'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 4.5;
+    calc.rightOperand = -3.5;
+    calc.operator = '*';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '1.1';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(-3.85);
+    expect(calc.rightOperand).toBe(1.1);
+    expect(calc.operator).toBe('*');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('-3.85');
+  });
+
+  test("leftOp=4.5, rightOp=-3.5, operator='*', displayValue='1.1', resetDisplayValue=true: Updated displayValue='-15.75'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 4.5;
+    calc.rightOperand = -3.5;
+    calc.operator = '*';
+    calc.resetDisplayValue = true;
+    // Normally this would be the same as leftOperand when resetDisplayValue=true
+    calc.displayValue = '1.1';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(-15.75);
+    expect(calc.rightOperand).toBe(-3.5);
+    expect(calc.operator).toBe('*');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('-15.75');
+  });
+
+  test("leftOp=2, rightOp=3, operator='/', displayValue='7', resetDisplayValue=false: Updated displayValue='0.428571429'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '7';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(0.428571429);
+    expect(calc.rightOperand).toBe(7);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('0.428571429');
+  });
+
+  test("leftOp=2, rightOp=3, operator='/', displayValue='7', resetDisplayValue=true: Updated displayValue='0.666666667'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    // Normally this would be the same as leftOperand when resetDisplayValue=true
+    calc.displayValue = '7';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(0.666666667);
+    expect(calc.rightOperand).toBe(3);
+    expect(calc.operator).toBe('/');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('0.666666667');
+  });
+
+  test("leftOp=2, rightOp=3, operator='/', displayValue='0.', resetDisplayValue=false: Updated displayValue='Div by 0!'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = '/';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '0';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Div by 0!');
+  });
+
+  test("leftOp=-2, rightOp=0, operator='/', displayValue='6.7', resetDisplayValue=true: Updated displayValue='Div by 0!'", () => {
+    const calc = new Calculator();
+    calc.leftOperand = -2;
+    calc.rightOperand = 0;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '6.7';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Div by 0!');
+  });
+
+  test("leftOp=2, rightOp=1, operator='+', displayValue='9999999999', resetDisplayValue=false: Updated displayValue='Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 2;
+    calc.rightOperand = 1;
+    calc.operator = '+';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '9999999999';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("leftOp=2, rightOp=9999999999, operator='+', displayValue='1', resetDisplayValue=true: Updated displayValue='Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 2;
+    calc.rightOperand = 9999999999;
+    calc.operator = '+';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '1';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("leftOp=2, rightOp=-1, operator='-', displayValue='-9999999999', resetDisplayValue=false: Updated displayValue='Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 2;
+    calc.rightOperand = 11;
+    calc.operator = '-';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '-9999999999';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("leftOp=-2, rightOp=9999999999, operator='-', displayValue='1', resetDisplayValue=true: Updated displayValue='Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = -2;
+    calc.rightOperand = 9999999999;
+    calc.operator = '-';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '1';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("leftOp=-2, rightOp=9999999999, operator='*', displayValue='9999999999', resetDisplayValue=false: Updated displayValue='Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 2;
+    calc.rightOperand = 9999999999;
+    calc.operator = '*';
+    calc.resetDisplayValue = false;
+    calc.displayValue = '9999999999';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("leftOp=999999.9999, rightOp=9999999.999, operator='*', displayValue='-0.1', resetDisplayValue=true: Updated displayValue='Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 999999.9999;
+    calc.rightOperand = 9999999.999;
+    calc.operator = '*';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '-0.1';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("leftOp=1000000000, rightOp=0.1, operator='/', displayValue='5', resetDisplayValue=true: Updated displayValue='Overflow'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 1000000000;
+    calc.rightOperand = 0.1;
+    calc.operator = '/';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '5';
+
+    calc.inputEquals();
+
+    expect(calc.displayValue).toBe('Overflow');
+  });
+
+  test("leftOp=1000000000, rightOp=0.000000001, operator='+', displayValue='1', resetDisplayValue=true: Updated displayValue='1000000000'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 1000000000;
+    calc.rightOperand = 0.000000001;
+    calc.operator = '+';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '1000000000';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(1000000000);
+    expect(calc.rightOperand).toBe(0.000000001);
+    expect(calc.operator).toBe('+');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('1000000000');
+  });
+
+  test("leftOp=0.000000001, rightOp=0.000000001, operator='*', displayValue='1', resetDisplayValue=true: Updated displayValue='0'", () => {
+    const calc = new Calculator();
+    Calculator.MAX_DIGITS = 10;
+    calc.leftOperand = 0.000000001;
+    calc.rightOperand = 0.000000001;
+    calc.operator = '*';
+    calc.resetDisplayValue = true;
+    calc.displayValue = '1';
+
+    calc.inputEquals();
+
+    expect(calc.leftOperand).toBe(0);
+    expect(calc.rightOperand).toBe(0.000000001);
+    expect(calc.operator).toBe('*');
+    expect(calc.resetDisplayValue).toBe(true);
+    expect(calc.displayValue).toBe('0');
+  });
+});
+
 describe('Tests fixDecimalDigits()', () => {
   test("Null is ignored", () => {
     const calc = new Calculator();
