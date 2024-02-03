@@ -605,7 +605,7 @@ describe('Tests input(char)', () => {
     const mockInputOperator = jest.spyOn(calc, 'inputOperator').mockImplementation(jest.fn());
 
     const digits = ['.'];
-    for(let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       digits.push(i);
       digits.push(i.toString());
     }
@@ -868,7 +868,7 @@ describe('Tests inputDigit(digitChar)', () => {
     calc.rightOperand = 3;
     calc.operator = '*';
     calc.displayValue = '11.11';
-    
+
     const invalidInputs = [null, undefined, NaN, '', 44, '55', 56.7, 8.88, {}, 'a', 'abc', Infinity, -Infinity];
 
     calc.resetDisplayValue = true;
@@ -922,7 +922,7 @@ describe('Tests inputDigit(digitChar)', () => {
 
     const validDigits = ['.'];
 
-    for(let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       validDigits.push(i);
       validDigits.push(i.toString());
     }
@@ -961,7 +961,7 @@ describe('Tests inputDigit(digitChar)', () => {
 
     const validDigits = ['.'];
 
-    for(let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       validDigits.push(i);
       validDigits.push(i.toString());
     }
@@ -988,7 +988,7 @@ describe('Tests inputDigit(digitChar)', () => {
 
     const validDigits = [];
 
-    for(let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       validDigits.push(i);
       validDigits.push(i.toString());
     }
