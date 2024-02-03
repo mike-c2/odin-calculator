@@ -619,7 +619,7 @@ describe('Tests input(char)', () => {
     expect(mockInputEquals).toHaveBeenCalledTimes(0);
     expect(mockInputOperator).toHaveBeenCalledTimes(0);
 
-    digits.forEach((digit, index) => expect(mockInputDigit).toHaveBeenNthCalledWith(index + 1, digit));
+    digits.forEach((digit, index) => expect(mockInputDigit).toHaveBeenNthCalledWith(index + 1, digit + ''));
   });
 
   test("'=' calls inputEquals()", () => {
