@@ -654,7 +654,7 @@ describe('Tests input(char)', () => {
 
     const operators = ['+', '-', '*', '/'];
 
-    operators.forEach(digit => calc.inputOperator(digit));
+    operators.forEach(digit => calc.input(digit));
 
     expect(mockResetCalculator).toHaveBeenCalledTimes(0);
     expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
