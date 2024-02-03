@@ -10,19 +10,19 @@ class Calculator {
 
   // This does not include the decimal point and negative sign
   static getCountOfNumericalDigits(numberString) {
-    if(numberString === Infinity || numberString === -Infinity) {
+    if (numberString === Infinity || numberString === -Infinity) {
       return Infinity;
     }
 
     let numString;
 
-    if(typeof numberString === 'number' && !isNaN(numberString)) {
+    if (typeof numberString === 'number' && !isNaN(numberString)) {
       numString = numberString.toString();
     } else {
       numString = numberString;
     }
 
-    if(!numString) {
+    if (!numString) {
       return 0;
     }
 
@@ -50,7 +50,7 @@ class Calculator {
     just one character at a time.
   */
   massInput(inputSequenceString) {
-    if(!inputSequenceString && inputSequenceString !== 0) {
+    if (!inputSequenceString && inputSequenceString !== 0) {
       return;
     }
 
@@ -62,76 +62,76 @@ class Calculator {
   }
 
   input(char) {
-    if(typeof char !== 'string' && typeof char !== 'number') {
+    if (typeof char !== 'string' && typeof char !== 'number') {
       return;
     }
 
     // Convert numbers into strings before converting.
     const character = `${char}`.toLowerCase();
 
-    if(character === 'a') {
+    if (character === 'a') {
       this.resetCalculator();
       return;
     }
 
-    if(!Calculator.isStringANumber(this.displayValue)) {
+    if (!Calculator.isStringANumber(this.displayValue)) {
       return;
     }
 
-    if((character === 'c' || character === 'd') && this.resetDisplayValue) {
+    if ((character === 'c' || character === 'd') && this.resetDisplayValue) {
       this.inputDigit('0');
       return;
     }
 
-    if(character === 'c') {
+    if (character === 'c') {
       this.displayValue = '0';
       return;
     }
 
-    if(character === 'd') {
+    if (character === 'd') {
       this.deleteLastDigit();
       return;
     }
 
-    if(character === '!') {
+    if (character === '!') {
       this.inputNegativeSign();
       return;
     }
 
-    if(/^[0-9.]$/.test(character)) {
+    if (/^[0-9.]$/.test(character)) {
       this.inputDigit(character);
       return;
     }
 
-    if(character === '=') {
+    if (character === '=') {
       this.inputEquals();
       return;
     }
 
-    if(character === '+' || character === '-' || character === '*' || character === '/') {
+    if (character === '+' || character === '-' || character === '*' || character === '/') {
       this.inputOperator(character);
       return;
     }
   }
 
   inputNegativeSign() {
-    if(!+this.displayValue) {
+    if (!+this.displayValue) {
       return;
     }
 
     this.displayValue += ''; // keeping the type consistent
 
-    if(+this.displayValue === 0) { // there is no -0
+    if (+this.displayValue === 0) { // there is no -0
       return;
     }
 
-    if(+this.displayValue < 0) {
+    if (+this.displayValue < 0) {
       this.displayValue = this.displayValue.slice(1);
-    } else if(+this.displayValue > 0) {
+    } else if (+this.displayValue > 0) {
       this.displayValue = '-' + this.displayValue;
     }
 
-    if(this.resetDisplayValue && this.leftOperand !== null) {
+    if (this.resetDisplayValue && this.leftOperand !== null) {
       this.leftOperand = +this.displayValue;
     }
   }
@@ -139,28 +139,28 @@ class Calculator {
   inputDigit(digitChar) {
     const digit = digitChar + '';
 
-    if( !(/^[0-9.]$/.test(digitChar) && Calculator.isStringANumber(this.displayValue)) ) {
+    if (!(/^[0-9.]$/.test(digitChar) && Calculator.isStringANumber(this.displayValue))) {
       return;
     }
 
-    if(this.resetDisplayValue) {
+    if (this.resetDisplayValue) {
       this.leftOperand = this.rightOperand;
       this.rightOperand = +this.displayValue;
       this.displayValue = '0';
       this.resetDisplayValue = false;
     }
 
-    if(digit !== '.' && this.displayValue === '0') {
+    if (digit !== '.' && this.displayValue === '0') {
       this.displayValue = digit;
       return;
     }
 
     // Cannot enter a decimal point if one already is present
-    if(digit === '.' && /\./.test(this.displayValue)) {
+    if (digit === '.' && /\./.test(this.displayValue)) {
       return;
     }
 
-    if(Calculator.getCountOfNumericalDigits(this.displayValue) >= Calculator.MAX_DIGITS) {
+    if (Calculator.getCountOfNumericalDigits(this.displayValue) >= Calculator.MAX_DIGITS) {
       return;
     }
 
@@ -180,7 +180,7 @@ class Calculator {
   }
 
   fixDecimalDigits() {
-    if(!Calculator.isStringANumber(this.displayValue)) {
+    if (!Calculator.isStringANumber(this.displayValue)) {
       return;
     }
 
@@ -189,7 +189,7 @@ class Calculator {
     let numberString = +this.displayValue;
     numberString = numberString.toString();
 
-    if(Calculator.getCountOfNumericalDigits(numberString) <= Calculator.MAX_DIGITS) {
+    if (Calculator.getCountOfNumericalDigits(numberString) <= Calculator.MAX_DIGITS) {
       this.displayValue = numberString;
       return;
     }
@@ -204,7 +204,7 @@ class Calculator {
     integerPartDigitCount = Calculator.getCountOfNumericalDigits(integerPart);
     decimalPartDigitCount = Calculator.getCountOfNumericalDigits(decimalPart);
 
-    if(integerPartDigitCount > Calculator.MAX_DIGITS) {
+    if (integerPartDigitCount > Calculator.MAX_DIGITS) {
       this.displayValue = 'Overflow';
       return;
     }
@@ -219,13 +219,13 @@ class Calculator {
   }
 
   deleteLastDigit() {
-    if(!Calculator.isStringANumber(this.displayValue)) {
+    if (!Calculator.isStringANumber(this.displayValue)) {
       return;
     }
 
     this.displayValue += '';
 
-    if(/^-?[0-9]$/.test(this.displayValue)) {
+    if (/^-?[0-9]$/.test(this.displayValue)) {
       this.displayValue = '0';
       return;
     }
