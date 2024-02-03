@@ -186,10 +186,6 @@ class Calculator {
 
   }
 
-  executeOperation() {
-
-  }
-
   fixDecimalDigits() {
     if (!Calculator.isStringANumber(this.displayValue)) {
       return;
