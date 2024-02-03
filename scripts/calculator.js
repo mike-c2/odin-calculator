@@ -173,7 +173,8 @@ class Calculator {
     if(!this.resetDisplayValue) {
       this.inputEquals();
     }
-
+    
+    this.resetDisplayValue = true;
     this.operator = newOperator;
   }
 

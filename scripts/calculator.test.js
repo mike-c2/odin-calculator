@@ -1293,6 +1293,7 @@ describe('Tests inputOperator(operatorChar)', () => {
       expect(calc.rightOperand).toBe(3);
       expect(calc.operator).toBe(operatorInput);
       expect(calc.displayValue).toBe('100');
+      expect(calc.resetDisplayValue).toBe(true);
     });
 
     expect(mockInputEquals).toHaveBeenCalledTimes(0);
@@ -1316,6 +1317,7 @@ describe('Tests inputOperator(operatorChar)', () => {
       expect(calc.rightOperand).toBe(3);
       expect(calc.operator).toBe(operatorInput);
       expect(calc.displayValue).toBe('100');
+      expect(calc.resetDisplayValue).toBe(true);
     });
 
     expect(mockInputEquals).toHaveBeenCalledTimes(validOperators.length);
