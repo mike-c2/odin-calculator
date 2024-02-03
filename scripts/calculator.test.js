@@ -610,7 +610,7 @@ describe('Tests input(char)', () => {
       digits.push(i.toString());
     }
 
-    digits.forEach(digit => calc.inputDigit(digit));
+    digits.forEach(digit => calc.input(digit));
 
     expect(mockResetCalculator).toHaveBeenCalledTimes(0);
     expect(mockDeleteLastDigit).toHaveBeenCalledTimes(0);
