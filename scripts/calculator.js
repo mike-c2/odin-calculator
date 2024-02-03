@@ -167,11 +167,22 @@ class Calculator {
     this.displayValue += digit;
   }
 
-  inputEquals() {
+  inputOperator(operatorChar) {
+    const newOperator = operatorChar + '';
 
+    if (!(/^[-+*/]$/.test(newOperator) && Calculator.isStringANumber(this.displayValue))) {
+      return;
+    }
+
+    this.operator = newOperator;
+
+    if(!this.resetDisplayValue) {
+      this.resetDisplayValue = true;
+      this.inputEquals();
+    }
   }
 
-  inputOperator(nextOperator) {
+  inputEquals() {
 
   }
 

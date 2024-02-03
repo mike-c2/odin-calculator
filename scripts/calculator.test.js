@@ -1229,6 +1229,107 @@ describe('Tests inputDigit(digitChar)', () => {
   });
 });
 
+describe('Tests inputOperator(operatorChar)', () => {
+  test('All invalid input are ignored', () => {
+    const calc = new Calculator();
+    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = '*';
+    calc.displayValue = '11.11';
+    calc.resetDisplayValue = true;
+
+    const invalidInputs = [null, undefined, NaN, Infinity, -Infinity, 0, '3', '.', 'a', 'c', '!'];
+
+    invalidInputs.forEach(badInput => {
+      calc.inputOperator(badInput);
+      expect(calc.leftOperand).toBe(2);
+      expect(calc.rightOperand).toBe(3);
+      expect(calc.operator).toBe('*');
+      expect(calc.displayValue).toBe('11.11');
+      expect(calc.resetDisplayValue).toBe(true);
+    });
+
+    expect(mockInputEquals).toHaveBeenCalledTimes(0);
+  });
+
+  test('All valid operators are ignored when displayValue is not valid', () => {
+    const calc = new Calculator();
+    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = 'a'; // this is not a valid operator, just using this to make sure that it does not change
+    calc.displayValue = 'Invalid';
+    calc.resetDisplayValue = true;
+
+    const validOperators = ['+', '-', '*', '/'];
+
+    validOperators.forEach(operatorInput => {
+      calc.inputOperator(operatorInput);
+
+      expect(calc.leftOperand).toBe(2);
+      expect(calc.rightOperand).toBe(3);
+      expect(calc.operator).toBe('a');
+      expect(calc.displayValue).toBe('Invalid');
+      expect(calc.resetDisplayValue).toBe(true);
+    });
+
+    expect(mockInputEquals).toHaveBeenCalledTimes(0);
+  });
+
+  test('All valid operators set when resetDisplayValue is true (inputEquals does not get called)', () => {
+    const calc = new Calculator();
+    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = 'a'; // this is not a valid operator, just using this to make sure that it does change
+    calc.displayValue = '100';
+    calc.resetDisplayValue = true;
+
+    const validOperators = ['+', '-', '*', '/'];
+
+    validOperators.forEach(operatorInput => {
+      calc.inputOperator(operatorInput);
+
+      expect(calc.leftOperand).toBe(2);
+      expect(calc.rightOperand).toBe(3);
+      expect(calc.operator).toBe(operatorInput);
+      expect(calc.displayValue).toBe('100');
+      expect(calc.resetDisplayValue).toBe(true);
+    });
+
+    expect(mockInputEquals).toHaveBeenCalledTimes(0);
+  });
+
+  test('All valid operators set when resetDisplayValue is false (inputEquals does get called)', () => {
+    const calc = new Calculator();
+    const mockInputEquals = jest.spyOn(calc, 'inputEquals').mockImplementation(jest.fn());
+    calc.leftOperand = 2;
+    calc.rightOperand = 3;
+    calc.operator = 'a'; // this is not a valid operator, just using this to make sure that it does change
+    calc.displayValue = '100';
+
+    const validOperators = ['+', '-', '*', '/'];
+
+    validOperators.forEach(operatorInput => {
+      calc.resetDisplayValue = false;
+      calc.inputOperator(operatorInput);
+
+      expect(calc.leftOperand).toBe(2);
+      expect(calc.rightOperand).toBe(3);
+      expect(calc.operator).toBe(operatorInput);
+      expect(calc.displayValue).toBe('100');
+      expect(calc.resetDisplayValue).toBe(true);
+    });
+
+    expect(mockInputEquals).toHaveBeenCalledTimes(validOperators.length);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+});
+
 describe('Tests fixDecimalDigits()', () => {
   test("Null is ignored", () => {
     const calc = new Calculator();
