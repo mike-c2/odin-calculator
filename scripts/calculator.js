@@ -121,10 +121,6 @@ class Calculator {
 
     this.displayValue += ''; // keeping the type consistent
 
-    if (+this.displayValue === 0) { // there is no -0
-      return;
-    }
-
     if (+this.displayValue < 0) {
       this.displayValue = this.displayValue.slice(1);
     } else if (+this.displayValue > 0) {
