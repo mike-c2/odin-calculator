@@ -26,4 +26,4 @@ C: Clear, uses the 'c' key.  This deletes the current number being entered, but 
 
 &#215;: Multiplication, its use is obvious, just mentioning that it uses the '*' key.
 
-+/-: Flips the number from positive to negative and vice-versa.  Uses the '!' key ('-' was already taken for the division key).
++/-: Flips the number from positive to negative and vice-versa.  Uses the '!' key ('-' was already taken for the subtraction key).
