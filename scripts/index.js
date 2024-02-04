@@ -66,8 +66,13 @@ function addEventListeners() {
 }
 
 function processKeydown(event) {
-  if(/^[0-9.!acd+*=/-]$/.test(event.key)) {
+  if(/^[0-9.!acd+*=-]$/.test(event.key)) {
     processInput(event.key);
+  }
+
+  if(event.key === '/') {
+    event.preventDefault();
+    processInput('/');
   }
 
   if(event.code === 'Backspace') {
