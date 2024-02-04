@@ -173,7 +173,7 @@ class Calculator {
     if(!this.resetDisplayValue) {
       this.inputEquals();
     }
-    
+
     this.resetDisplayValue = true;
     this.operator = newOperator;
   }
@@ -289,4 +289,10 @@ class Calculator {
   }
 }
 
-module.exports = Calculator;
+// This is needed for Jest
+if(typeof module === 'object') {
+  module.exports = Calculator;
+}
+
+// If running Jest, this line needs to be commented out.
+export {Calculator as default};
