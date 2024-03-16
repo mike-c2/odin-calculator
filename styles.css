@@ -42,6 +42,8 @@ body {
   height: 5rem;
   width: 5rem;
   border-style: none;
+  transition: font-weight 0.15s;
+  transition: background-color 0.15s;    
 }
 
 .number-btn,
@@ -73,21 +75,17 @@ body {
 .operator-btn:hover,
 .utility-btn:hover {
   font-weight: 600;
-  transition: font-weight 0.15s;  
   cursor: pointer;
 }
 
 .number-btn:hover {
   background-color: rgb(26, 26, 26);
-  transition: background-color 0.15s;  
 }
 
 .operator-btn:hover {
-  background-color: rgb(235, 235, 235);
-  transition: background-color 0.15s;  
+  background-color: rgb(235, 235, 235); 
 }
 
 .utility-btn:hover {
-  background-color: orange;
-  transition: background-color 0.15s;  
+  background-color: orange; 
 }
